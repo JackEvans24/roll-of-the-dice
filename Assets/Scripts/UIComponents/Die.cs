@@ -80,6 +80,8 @@ namespace RollOfTheDice.UIComponents
                 return;
             _dropZone.RemoveDie();
             _dropZone = null;
+            
+            OnDiePlaced?.Invoke();
         }
 
         private void OnDestroy()
