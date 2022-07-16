@@ -12,6 +12,7 @@ namespace RollOfTheDice.Models
         
         public int MaxHealth;
         public int AttackDamage;
+        public int DiceCount;
 
         public void Initialise()
         {
