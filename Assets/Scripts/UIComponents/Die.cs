@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,11 +12,12 @@ namespace RollOfTheDice.UIComponents
         [Header("Variables")]
         [SerializeField] private float _dropZoneCheckRadius = 1f;
         [SerializeField] private LayerMask _dropZoneLayer;
-        
+
+        public Action OnDiePlaced;
         public int Value { get; private set; }
+        [HideInInspector] public DropZone _dropZone;
 
         private Vector3 _startPosition;
-        private DropZone _dropZone;
 
         private void Start()
         {
@@ -33,8 +35,23 @@ namespace RollOfTheDice.UIComponents
             _dragEnabled = true;
         }
 
+        public void Enable(bool enable)
+        {
+            _dragEnabled = enable;
+        }
+
+        public void Reset()
+        {
+            RemoveDropZone();
+            _targetPosition = _startPosition;
+            _dragEnabled = true;
+        }
+
         private void FindDropZone()
         {
+            if (!_dragEnabled)
+                return;
+            
             var foundCollider = Physics2D.OverlapCircle(transform.position, _dropZoneCheckRadius, _dropZoneLayer);
             if (foundCollider == null)
             {
@@ -51,10 +68,14 @@ namespace RollOfTheDice.UIComponents
 
             _dropZone = foundDropZone;
             _targetPosition = _dropZone.transform.position;
+            
+            OnDiePlaced?.Invoke();
         }
 
         private void RemoveDropZone()
         {
+            if (!_dragEnabled)
+                return;
             if (_dropZone == null)
                 return;
             _dropZone.RemoveDie();
