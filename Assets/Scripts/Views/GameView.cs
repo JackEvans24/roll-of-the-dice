@@ -17,7 +17,10 @@ namespace RollOfTheDice.Views
         public void Constructor(GameController gameController)
         {
             _gameController = gameController;
+        }
 
+        private void Start()
+        {
             _gameController.OnDiceRolled += DiceRolled;
             _gameController.OnPlayerTurnComplete += DisableInput;
             _gameController.OnRoundComplete += DisableInput;

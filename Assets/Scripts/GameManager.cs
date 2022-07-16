@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using RollOfTheDice.Controllers;
 using RollOfTheDice.Models;
 using UnityEngine;
@@ -22,7 +21,10 @@ namespace RollOfTheDice
         public void Constructor(GameController gameController)
         {
             _gameController = gameController;
-            
+        }
+
+        private void Start()
+        {
             _player.Initialise();
             _enemy.Initialise();
             _gameController.SetUpRound(_player, _enemy);
