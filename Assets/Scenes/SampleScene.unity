@@ -425,6 +425,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 674b89be8c924f7ea17c5254e1e4067d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player:
+    MaxHealth: 30
+    AttackDamage: 8
+  _enemy:
+    MaxHealth: 12
+    AttackDamage: 6
   _turnWait: 1.5
 --- !u!4 &1406850783
 Transform:
@@ -524,23 +530,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5881004566114989904, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5881004566114989904, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1125487949}
+      objectReference: {fileID: 1406850782}
     - target: {fileID: 5881004566114989904, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5881004566114989904, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DealDamage
+      value: PlayerDealDamage
       objectReference: {fileID: 0}
     - target: {fileID: 5881004566114989904, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: RollOfTheDice.Views.GameView, Main
+      value: RollOfTheDice.GameManager, Main
       objectReference: {fileID: 0}
     - target: {fileID: 5881004566114989904, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
