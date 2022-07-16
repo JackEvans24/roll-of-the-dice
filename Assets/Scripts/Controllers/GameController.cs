@@ -1,6 +1,8 @@
 using System;
 using RollOfTheDice.Models;
+using RollOfTheDice.Services;
 using UnityEngine;
+using Zenject;
 
 namespace RollOfTheDice.Controllers
 {
@@ -8,10 +10,19 @@ namespace RollOfTheDice.Controllers
     {
         public Action OnPlayerTurnComplete;
         public Action OnEnemyTurnComplete;
+        public Action<int[]> OnDiceRolled;
         public Action OnRoundComplete;
+
+        private DiceService _diceService;
 
         private Player _player;
         private Enemy _enemy;
+
+        [Inject]
+        public void Constructor(DiceService diceService)
+        {
+            _diceService = diceService;
+        }
 
         public void SetUpRound(Player player, Enemy enemy)
         {
@@ -47,6 +58,14 @@ namespace RollOfTheDice.Controllers
             }
             
             OnEnemyTurnComplete?.Invoke();
+        }
+
+        public void RollDice()
+        {
+            var diceRolls = _diceService.RollDice(_player.DiceCount);
+            OnDiceRolled?.Invoke(diceRolls);
+            
+            Debug.Log("Dice rolled");
         }
     }
 }

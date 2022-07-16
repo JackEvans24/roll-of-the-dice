@@ -39,6 +39,7 @@ namespace RollOfTheDice
         {
             yield return new WaitForSeconds(_turnWait);
             _gameController.SubmitEnemyTurn(_enemy.AttackDamage);
+            _gameController.RollDice();
         }
 
         private void RoundComplete() => Debug.Log("Round complete");
