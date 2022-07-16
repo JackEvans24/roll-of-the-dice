@@ -34,8 +34,6 @@ namespace RollOfTheDice
             
             _gameController.RollDice();
         }
-
-        public void PlayerDealDamage() => _gameController.SubmitPlayerTurn(_player.AttackDamage);
         
         private void EnemyDealDamage() => StartCoroutine(WaitAndDealDamage());
 
