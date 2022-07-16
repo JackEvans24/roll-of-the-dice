@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollOfTheDice.UIComponents
 {
-    public class Die : MonoBehaviour
+    public class Die : Draggable
     {
         [SerializeField] private TMP_Text _valueLabel;
         
@@ -13,6 +13,7 @@ namespace RollOfTheDice.UIComponents
         {
             Value = value;
             _valueLabel.text = Value.ToString();
+            _dragEnabled = true;
         }
     }
 }
