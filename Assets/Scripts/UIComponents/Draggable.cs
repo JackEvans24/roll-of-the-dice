@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace RollOfTheDice.UIComponents
@@ -9,16 +10,16 @@ namespace RollOfTheDice.UIComponents
         [SerializeField] private float _dragSmoothing = 0.05f;
         
         protected bool _dragEnabled;
+
+        protected Action OnLift;
+        protected Action OnDrop;
         
-        private Vector3 _targetPosition;
+        protected Vector3 _targetPosition;
         private Vector3 _currentVelocity;
         private bool _dragging;
 
         private void Update()
         {
-            if (!_dragging)
-                return;
-
             transform.position =
                 Vector3.SmoothDamp(transform.position, _targetPosition, ref _currentVelocity, _dragSmoothing);
         }
@@ -29,6 +30,7 @@ namespace RollOfTheDice.UIComponents
                 return;
             
             _dragging = true;
+            OnLift?.Invoke();
         }
 
         private void OnMouseDrag()
@@ -42,6 +44,7 @@ namespace RollOfTheDice.UIComponents
         private void OnMouseUp()
         {
             _dragging = false;
+            OnDrop?.Invoke();
         }
     }
 }

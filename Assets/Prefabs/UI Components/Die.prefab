@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dragSmoothing: 0.05
   _valueLabel: {fileID: 7989361278294320719}
+  _dropZoneCheckRadius: 1
+  _dropZoneLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!61 &7989361277660742596
 BoxCollider2D:
   m_ObjectHideFlags: 0
