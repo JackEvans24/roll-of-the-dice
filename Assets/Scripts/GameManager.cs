@@ -31,6 +31,8 @@ namespace RollOfTheDice
 
             _gameController.OnPlayerTurnComplete += EnemyDealDamage;
             _gameController.OnRoundComplete += RoundComplete;
+            
+            _gameController.RollDice();
         }
 
         public void PlayerDealDamage() => _gameController.SubmitPlayerTurn(_player.AttackDamage);
