@@ -18,11 +18,7 @@ namespace RollOfTheDice.Views
 
             _gameController.OnPlayerTurnComplete += DisableInput;
             _gameController.OnEnemyTurnComplete += EnableInput;
-        }
-
-        public void DealDamage(int damage)
-        {
-            _gameController.SubmitPlayerTurn(damage);
+            _gameController.OnRoundComplete += DisableInput;
         }
 
         private void DisableInput() => _eventSystem.enabled = false;
@@ -32,6 +28,7 @@ namespace RollOfTheDice.Views
         {
             _gameController.OnPlayerTurnComplete -= DisableInput;
             _gameController.OnEnemyTurnComplete -= EnableInput;
+            _gameController.OnRoundComplete -= DisableInput;
         }
     }
 }
