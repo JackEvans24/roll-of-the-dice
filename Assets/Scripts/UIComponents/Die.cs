@@ -7,7 +7,10 @@ namespace RollOfTheDice.UIComponents
     public class Die : Draggable
     {
         [Header("References")]
-        [SerializeField] private TMP_Text _valueLabel;
+        [SerializeField] private SpriteRenderer _valueSpriteRenderer;
+
+        [Header("Dice sprites")]
+        [SerializeField] private Sprite[] _valueSprites;
 
         [Header("Variables")]
         [SerializeField] private float _dropZoneCheckRadius = 1f;
@@ -21,6 +24,9 @@ namespace RollOfTheDice.UIComponents
 
         private void Start()
         {
+            if (_valueSprites.Length != 6)
+                throw new InvalidProgramException("Not enough sprites");
+            
             _startPosition = transform.position;
             _targetPosition = _startPosition;
             
@@ -31,8 +37,7 @@ namespace RollOfTheDice.UIComponents
         public void SetValue(int value)
         {
             Value = value;
-            _valueLabel.text = Value.ToString();
-            _dragEnabled = true;
+            _valueSpriteRenderer.sprite = _valueSprites[Value - 1];
         }
 
         public void Enable(bool enable)
