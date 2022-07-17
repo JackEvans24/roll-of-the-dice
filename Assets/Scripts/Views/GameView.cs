@@ -1,4 +1,5 @@
 using RollOfTheDice.Controllers;
+using RollOfTheDice.Models;
 using RollOfTheDice.UIComponents;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,14 +30,26 @@ namespace RollOfTheDice.Views
 
         public void CompleteTurn()
         {
-            var totalDamage = 0;
+            var totalAttack = 0;
+            var totalDefend = 0;
+            
             foreach (var die in _dice)
             {
                 die.Enable(false);
-                totalDamage += die.Value;
+
+                switch (die.DropZone.DropZoneType)
+                {
+                    case DropZoneType.Attack:
+                        totalAttack += die.Value;
+                        break;
+                    case DropZoneType.Defence:
+                        totalDefend += die.Value;
+                        break;
+                }
             }
-            
-            _gameController.SubmitPlayerTurn(totalDamage);
+
+            var turnData = new PlayerTurnData(totalAttack, totalDefend);
+            _gameController.SubmitPlayerTurn(turnData);
             _completeButton.interactable = false;
         }
 
@@ -45,7 +58,7 @@ namespace RollOfTheDice.Views
             var allDicePlaced = true;
             foreach (var die in _dice)
             {
-                if (die._dropZone != null)
+                if (die.DropZone != null)
                     continue;
 
                 allDicePlaced = false;
