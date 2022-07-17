@@ -30,6 +30,12 @@ namespace RollOfTheDice.Views
         [SerializeField] private Sprite _attackSprite;
         [SerializeField] private Sprite _defendSprite;
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _attackClip;
+        [SerializeField] private AudioClip _shieldClip;
+        [SerializeField] private AudioClip _hurtClip;
+
         private GameObject _sprite;
 
         private GameController _gameController;
@@ -90,11 +96,19 @@ namespace RollOfTheDice.Views
             };
         }
 
-        private void EnemyUpdate(EnemyUpdateData updateData)
+        private void EnemyUpdate(EnemyUpdate updateData)
         {
             _animator.SetTrigger(updateData.AnimationName);
             UpdateDetails(updateData.Enemy);
-        }
+
+            var clip = updateData.UpdateType switch
+            {
+                UpdateType.Attack => _attackClip,
+                UpdateType.Hurt => _hurtClip,
+                UpdateType.Shield => _shieldClip,
+                _ => throw new NotImplementedException()
+            };
+            _audioSource.PlayOneShot(clip);        }
 
         private void OnDestroy()
         {

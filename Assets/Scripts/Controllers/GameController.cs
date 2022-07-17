@@ -18,8 +18,8 @@ namespace RollOfTheDice.Controllers
         public Action<int[]> OnDiceRolled;
         public Action OnRoundComplete;
 
-        public Action<PlayerUpdateData> OnPlayerUpdate;
-        public Action<EnemyUpdateData> OnEnemyUpdate;
+        public Action<PlayerUpdate> OnPlayerUpdate;
+        public Action<EnemyUpdate> OnEnemyUpdate;
 
         public Player Player;
         public Enemy Enemy;
@@ -64,13 +64,13 @@ namespace RollOfTheDice.Controllers
                 {
                     case DropZoneType.Attack:
                         Enemy.TakeDamage(dropZone.CurrentDie.Value);
-                        OnPlayerUpdate(new PlayerUpdateData(Player, "Attack"));
-                        OnEnemyUpdate(new EnemyUpdateData(Enemy, "Hurt"));
+                        OnPlayerUpdate(PlayerUpdate.Attack(Player));
+                        OnEnemyUpdate(EnemyUpdate.Hurt(Enemy));
                         yield return new WaitForSeconds(Player.AttackTime);
                         break;
                     case DropZoneType.Defence:
                         Player.AddShield(dropZone.CurrentDie.Value);
-                        OnPlayerUpdate(new PlayerUpdateData(Player, "Shield"));
+                        OnPlayerUpdate(PlayerUpdate.Shield(Player));
                         yield return new WaitForSeconds(Player.ShieldTime);
                         break;
                 }
@@ -93,13 +93,13 @@ namespace RollOfTheDice.Controllers
             {
                 case MoveType.Attack:
                     Player.TakeDamage(intent.MovePower);
-                    OnEnemyUpdate(new EnemyUpdateData(Enemy, "Attack"));
-                    OnPlayerUpdate(new PlayerUpdateData(Player, "Hurt"));
+                    OnEnemyUpdate(EnemyUpdate.Attack(Enemy));
+                    OnPlayerUpdate(PlayerUpdate.Hurt(Player));
                     yield return new WaitForSeconds(Player.AttackTime);
                     break;
                 case MoveType.Defend:
                     Enemy.AddShield(intent.MovePower);
-                    OnEnemyUpdate(new EnemyUpdateData(Enemy, "Shield"));
+                    OnEnemyUpdate(EnemyUpdate.Shield(Enemy));
                     yield return new WaitForSeconds(Player.AttackTime);
                     break;
                 default:
