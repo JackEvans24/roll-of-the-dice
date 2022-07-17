@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a050135f20d6457e8b3015f5cdcb7f22, type: 3}
   m_Name: Slime
   m_EditorClassIdentifier: 
-  MaxHealth: 25
+  MaxHealth: 20
   Sprite: {fileID: 8000891442884980888, guid: d81c3de907427a84ba6640b3cbee367d, type: 3}
   Size: 100
   Intents:
@@ -20,7 +20,7 @@ MonoBehaviour:
     MovePower: 3
     QueueInstances: 3
   - MoveType: 0
-    MovePower: 6
+    MovePower: 4
     QueueInstances: 1
   - MoveType: 1
     MovePower: 5

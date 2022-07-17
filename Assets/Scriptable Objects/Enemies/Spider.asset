@@ -12,16 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a050135f20d6457e8b3015f5cdcb7f22, type: 3}
   m_Name: Spider
   m_EditorClassIdentifier: 
-  MaxHealth: 14
+  MaxHealth: 10
   Sprite: {fileID: 5655746613071904064, guid: fd290adc6f02fc445a5177019d642948, type: 3}
   Size: 80
   Intents:
   - MoveType: 0
-    MovePower: 3
+    MovePower: 2
     QueueInstances: 3
-  - MoveType: 0
-    MovePower: 4
-    QueueInstances: 1
   - MoveType: 1
-    MovePower: 6
+    MovePower: 4
     QueueInstances: 1
