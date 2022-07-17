@@ -119,8 +119,6 @@ namespace RollOfTheDice.Controllers
         {
             var diceRolls = _diceService.RollDice(Player.DiceCount);
             OnDiceRolled?.Invoke(diceRolls);
-            
-            Debug.Log("Dice rolled");
         }
     }
 }
