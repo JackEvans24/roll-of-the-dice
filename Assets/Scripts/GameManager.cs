@@ -45,24 +45,30 @@ namespace RollOfTheDice
 
         private void PlayerTurnComplete()
         {
-            _enemyView.UpdateDetails(_enemy);
+            UpdateStatuses();
             StartCoroutine(WaitAndDealDamage());
         }
 
         private IEnumerator WaitAndDealDamage()
         {
             yield return new WaitForSeconds(_turnWait);
-            _gameController.SubmitEnemyTurn(_enemy.AttackDamage);
+            _gameController.SubmitEnemyTurn(_enemy.GetNextIntent());
             
-            _playerView.UpdateDetails(_player);
+            UpdateStatuses();
             
             _gameController.RollDice();
         }
 
         private void RoundComplete()
         {
-            _enemyView.UpdateDetails(_enemy);
+            UpdateStatuses();
             Debug.Log("Round complete");
+        }
+
+        private void UpdateStatuses()
+        {
+            _playerView.UpdateDetails(_player);
+            _enemyView.UpdateDetails(_enemy);
         }
 
         private void OnDestroy()
