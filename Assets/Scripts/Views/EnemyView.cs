@@ -1,15 +1,22 @@
 using System;
+using RollOfTheDice.Controllers;
 using RollOfTheDice.Models;
+using RollOfTheDice.UIComponents;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace RollOfTheDice.Views
 {
     public class EnemyView : MonoBehaviour
     {
+        [Header("Drop Zones")]
+        public DropZone[] DropZones;
+
         [Header("Sprite")]
-        [SerializeField] private Image _enemyImage;
+        [SerializeField] private GameObject _spriteContainer;
+        [SerializeField] private Animator _animator;
 
         [Header("Value References")]
         [SerializeField] private TMP_Text _healthLabel;
@@ -23,11 +30,27 @@ namespace RollOfTheDice.Views
         [SerializeField] private Sprite _attackSprite;
         [SerializeField] private Sprite _defendSprite;
 
+        private GameObject _sprite;
+
+        private GameController _gameController;
+        
+        [Inject]
+        public void Constructor(GameController gameController)
+        {
+            _gameController = gameController;
+        }
+
+        private void Start()
+        {
+            _gameController.OnEnemyUpdate += EnemyUpdate;
+        }
+
         public void Initialise(Enemy enemy)
         {
-            _enemyImage.sprite = enemy.Sprite;
-            _enemyImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, enemy.Size);
-            _enemyImage.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, enemy.Size);
+            if (_sprite != null)
+                Destroy(_sprite);
+
+            _sprite = Instantiate(enemy.Sprite, _spriteContainer.transform);
         }
 
         public void UpdateDetails(Enemy enemy)
@@ -65,6 +88,17 @@ namespace RollOfTheDice.Views
                 MoveType.Defend => _defendSprite,
                 _ => throw new NotImplementedException()
             };
+        }
+
+        private void EnemyUpdate(EnemyUpdateData updateData)
+        {
+            _animator.SetTrigger(updateData.AnimationName);
+            UpdateDetails(updateData.Enemy);
+        }
+
+        private void OnDestroy()
+        {
+            _gameController.OnEnemyUpdate -= EnemyUpdate;
         }
     }
 }

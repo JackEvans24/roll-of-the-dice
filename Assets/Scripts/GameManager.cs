@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using RollOfTheDice.Controllers;
-using RollOfTheDice.Extensions;
 using RollOfTheDice.Models;
+using RollOfTheDice.UIComponents;
 using RollOfTheDice.Views;
 using UnityEngine;
 using Zenject;
@@ -16,6 +16,7 @@ namespace RollOfTheDice
         [SerializeField] private Enemy[] _enemies;
 
         [Header("Views")]
+        [SerializeField] private GameView _gameView;
         [SerializeField] private RoundEndView _roundEndView;
         [SerializeField] private PlayerView _playerView;
         [SerializeField] private EnemyView _enemyView;
@@ -38,6 +39,8 @@ namespace RollOfTheDice
             _gameController.OnRoundStart += NewRound;
             _gameController.OnPlayerTurnComplete += PlayerTurnComplete;
             _gameController.OnRoundComplete += RoundComplete;
+
+            _gameView.OnTurnConfirmed += CompleteTurn;
             
             StartGame();
         }
@@ -60,22 +63,27 @@ namespace RollOfTheDice
             
             _enemyView.Initialise(_gameController.Enemy);
             
-            _playerView.UpdateDetails(_gameController.Player);
-            _enemyView.UpdateDetails(_gameController.Enemy);
+            UpdateStatuses();
             
             _gameController.RollDice();
+        }
+        
+        public void CompleteTurn()
+        {
+            var dropZones = new List<DropZone>(_playerView.DropZones);
+            dropZones.AddRange(_enemyView.DropZones);
+            StartCoroutine(_gameController.SubmitPlayerTurn(dropZones));
         }
 
         private void PlayerTurnComplete()
         {
-            UpdateStatuses();
             StartCoroutine(WaitAndDealDamage());
         }
 
         private IEnumerator WaitAndDealDamage()
         {
             yield return new WaitForSeconds(_turnWait);
-            _gameController.SubmitEnemyTurn();
+            yield return _gameController.SubmitEnemyTurn();
             
             UpdateStatuses();
             
@@ -113,6 +121,8 @@ namespace RollOfTheDice
             _gameController.OnRoundStart -= NewRound;
             _gameController.OnPlayerTurnComplete -= PlayerTurnComplete;
             _gameController.OnRoundComplete -= RoundComplete;
+            
+            _gameView.OnTurnConfirmed -= CompleteTurn;
         }
     }
 }

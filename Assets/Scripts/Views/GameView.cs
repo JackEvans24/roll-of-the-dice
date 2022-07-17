@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using RollOfTheDice.Controllers;
-using RollOfTheDice.Models;
 using RollOfTheDice.UIComponents;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +10,8 @@ namespace RollOfTheDice.Views
 {
     public class GameView : MonoBehaviour
     {
+        public Action OnTurnConfirmed;
+        
         [SerializeField] private Button _completeButton;
         [SerializeField] private Die _diePrefab;
         [SerializeField] private Transform _diePlacementPosition;
@@ -34,27 +36,8 @@ namespace RollOfTheDice.Views
 
         public void CompleteTurn()
         {
-            var totalAttack = 0;
-            var totalDefend = 0;
-            
-            foreach (var die in _dice)
-            {
-                die.Enable(false);
-
-                switch (die.DropZone.DropZoneType)
-                {
-                    case DropZoneType.Attack:
-                        totalAttack += die.Value;
-                        break;
-                    case DropZoneType.Defence:
-                        totalDefend += die.Value;
-                        break;
-                }
-            }
-
-            var turnData = new PlayerTurnData(totalAttack, totalDefend);
-            _gameController.SubmitPlayerTurn(turnData);
             _completeButton.interactable = false;
+            OnTurnConfirmed?.Invoke();
         }
 
         private void GenerateDice()

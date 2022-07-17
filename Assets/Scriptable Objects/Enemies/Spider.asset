@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spider
   m_EditorClassIdentifier: 
   MaxHealth: 14
-  Sprite: {fileID: 21300000, guid: 947cb3a13c4142a448a9b7567b06cd7e, type: 3}
+  Sprite: {fileID: 5655746613071904064, guid: fd290adc6f02fc445a5177019d642948, type: 3}
   Size: 80
   Intents:
   - MoveType: 0

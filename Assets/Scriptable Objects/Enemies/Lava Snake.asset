@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lava Snake
   m_EditorClassIdentifier: 
   MaxHealth: 40
-  Sprite: {fileID: 21300000, guid: 96642c8d581aa9f4ba0ea8f1f7bf1815, type: 3}
+  Sprite: {fileID: 8384070032461494102, guid: 382237d93926b534aa3edbc8812e5674, type: 3}
   Size: 140
   Intents:
   - MoveType: 0

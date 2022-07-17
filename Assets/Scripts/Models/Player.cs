@@ -6,5 +6,7 @@ namespace RollOfTheDice.Models
     public class Player : UnitWithHealth
     {
         public int DiceCount;
+        public float ShieldTime;
+        public float AttackTime;
     }
 }

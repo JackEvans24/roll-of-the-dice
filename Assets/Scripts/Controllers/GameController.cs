@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using RollOfTheDice.Models;
 using RollOfTheDice.Services;
+using RollOfTheDice.UIComponents;
 using UnityEngine;
 using Zenject;
 
@@ -14,6 +17,9 @@ namespace RollOfTheDice.Controllers
         public Action OnEnemyTurnComplete;
         public Action<int[]> OnDiceRolled;
         public Action OnRoundComplete;
+
+        public Action<PlayerUpdateData> OnPlayerUpdate;
+        public Action<EnemyUpdateData> OnEnemyUpdate;
 
         public Player Player;
         public Enemy Enemy;
@@ -47,21 +53,39 @@ namespace RollOfTheDice.Controllers
             OnRoundStart?.Invoke();
         }
 
-        public void SubmitPlayerTurn(PlayerTurnData turnData)
+        public IEnumerator SubmitPlayerTurn(IEnumerable<DropZone> dropZones)
         {
-            Player.AddShield(turnData.Defend);
-            Enemy.TakeDamage(turnData.Attack);
-
-            if (Enemy.Dead)
+            foreach (var dropZone in dropZones)
             {
+                if (dropZone.CurrentDie == null)
+                    continue;
+
+                switch (dropZone.DropZoneType)
+                {
+                    case DropZoneType.Attack:
+                        Enemy.TakeDamage(dropZone.CurrentDie.Value);
+                        OnPlayerUpdate(new PlayerUpdateData(Player, "Attack"));
+                        OnEnemyUpdate(new EnemyUpdateData(Enemy, "Hurt"));
+                        yield return new WaitForSeconds(Player.AttackTime);
+                        break;
+                    case DropZoneType.Defence:
+                        Player.AddShield(dropZone.CurrentDie.Value);
+                        OnPlayerUpdate(new PlayerUpdateData(Player, "Shield"));
+                        yield return new WaitForSeconds(Player.ShieldTime);
+                        break;
+                }
+
+                if (!Enemy.Dead)
+                    continue;
+                
                 OnRoundComplete?.Invoke();
-                return;
+                yield break;
             }
             
             OnPlayerTurnComplete?.Invoke();
         }
 
-        public void SubmitEnemyTurn()
+        public IEnumerator SubmitEnemyTurn()
         {
             var intent = Enemy.GetNextIntent();
             
@@ -69,9 +93,14 @@ namespace RollOfTheDice.Controllers
             {
                 case MoveType.Attack:
                     Player.TakeDamage(intent.MovePower);
+                    OnEnemyUpdate(new EnemyUpdateData(Enemy, "Attack"));
+                    OnPlayerUpdate(new PlayerUpdateData(Player, "Hurt"));
+                    yield return new WaitForSeconds(Player.AttackTime);
                     break;
                 case MoveType.Defend:
                     Enemy.AddShield(intent.MovePower);
+                    OnEnemyUpdate(new EnemyUpdateData(Enemy, "Shield"));
+                    yield return new WaitForSeconds(Player.AttackTime);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -80,7 +109,7 @@ namespace RollOfTheDice.Controllers
             if (Player.Dead)
             {
                 OnRoundComplete?.Invoke();
-                return;
+                yield break;
             }
             
             OnEnemyTurnComplete?.Invoke();

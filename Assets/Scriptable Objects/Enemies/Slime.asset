@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   MaxHealth: 25
-  Sprite: {fileID: 21300000, guid: 5f9ff5b913219c440b70fd38eee2e133, type: 3}
+  Sprite: {fileID: 8000891442884980888, guid: d81c3de907427a84ba6640b3cbee367d, type: 3}
   Size: 100
   Intents:
   - MoveType: 0
