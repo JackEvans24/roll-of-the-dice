@@ -17,6 +17,9 @@ namespace RollOfTheDice.Views
         [SerializeField] private Transform _diePlacementPosition;
         [SerializeField] private float _dieSpacing;
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource _diceRollAudio;
+        
         private GameController _gameController;
         private List<Die> _dice = new List<Die>();
         
@@ -79,6 +82,8 @@ namespace RollOfTheDice.Views
                 _dice[i].SetValue(values[i]);
                 _dice[i].Reset();
             }
+            
+            _diceRollAudio.Play();
 
             _completeButton.interactable = false;
         }
