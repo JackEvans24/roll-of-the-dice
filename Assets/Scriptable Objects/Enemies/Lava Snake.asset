@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a050135f20d6457e8b3015f5cdcb7f22, type: 3}
   m_Name: Lava Snake
   m_EditorClassIdentifier: 
-  MaxHealth: 40
+  MaxHealth: 35
   Sprite: {fileID: 8384070032461494102, guid: 382237d93926b534aa3edbc8812e5674, type: 3}
   Size: 140
   Intents:
@@ -26,5 +26,5 @@ MonoBehaviour:
     MovePower: 5
     QueueInstances: 1
   - MoveType: 1
-    MovePower: 8
+    MovePower: 6
     QueueInstances: 1
