@@ -8,14 +8,17 @@ namespace RollOfTheDice.Models
     public class Enemy : UnitWithHealth
     {
         public GameObject Sprite;
-        public float Size;
         public EnemyIntent[] Intents;
+
+        private float _multiplier;
 
         private Queue<EnemyIntent> _intentQueue = new Queue<EnemyIntent>();
 
-        public override void Initialise()
+        public override void Initialise(float multiplier)
         {
-            base.Initialise();
+            base.Initialise(multiplier);
+            _multiplier = multiplier;
+            
             PopulateIntentQueue();
         }
 
@@ -31,7 +34,18 @@ namespace RollOfTheDice.Models
 
         private void PopulateIntentQueue()
         {
-            _intentQueue = Intents.GetRandomisedQueue(intent => intent.QueueInstances);
+            var tempIntentList = new List<EnemyIntent>();
+            foreach (var intent in Intents)
+            {
+                var movePower = intent.MoveType == MoveType.Attack ? Mathf.RoundToInt(intent.MovePower * _multiplier) : intent.MovePower;
+                tempIntentList.Add(new EnemyIntent()
+                {
+                    MovePower = movePower,
+                    MoveType = intent.MoveType,
+                    QueueInstances = intent.QueueInstances
+                });
+            }
+            _intentQueue = tempIntentList.GetRandomisedQueue(intent => intent.QueueInstances);
         }
     }
 }

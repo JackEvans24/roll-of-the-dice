@@ -8,7 +8,7 @@ namespace RollOfTheDice.Models
         int Shield { get; }
         bool Dead { get; }
 
-        void Initialise();
+        void Initialise(float multiplier = 1f);
         void TakeDamage(int damage);
     }
 }
