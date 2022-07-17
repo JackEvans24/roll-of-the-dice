@@ -44,12 +44,20 @@ namespace RollOfTheDice.Controllers
             OnPlayerTurnComplete?.Invoke();
         }
 
-        public void SubmitEnemyTurn(int attackDamage)
+        public void SubmitEnemyTurn(EnemyIntent intent)
         {
-            _player.TakeDamage(attackDamage);
+            switch (intent.MoveType)
+            {
+                case MoveType.Attack:
+                    _player.TakeDamage(intent.MovePower);
+                    break;
+                case MoveType.Defend:
+                    _enemy.AddShield(intent.MovePower);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
             
-            Debug.Log($"Damage this turn: {attackDamage}\r\nTotal enemy damage: {_player.Health}");
-
             if (_player.Dead)
             {
                 OnRoundComplete?.Invoke();
