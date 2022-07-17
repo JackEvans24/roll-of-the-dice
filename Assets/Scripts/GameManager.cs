@@ -1,6 +1,7 @@
 using System.Collections;
 using RollOfTheDice.Controllers;
 using RollOfTheDice.Models;
+using RollOfTheDice.Views;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +12,10 @@ namespace RollOfTheDice
         [Header("Game Players")]
         [SerializeField] private Player _player;
         [SerializeField] private Enemy _enemy;
+
+        [Header("Views")]
+        [SerializeField] private PlayerView _playerView;
+        [SerializeField] private EnemyView _enemyView;
         
         [Header("Variables")]
         [SerializeField] private float _turnWait = 0.6f;
@@ -29,26 +34,40 @@ namespace RollOfTheDice
             _enemy.Initialise();
             _gameController.SetUpRound(_player, _enemy);
 
-            _gameController.OnPlayerTurnComplete += EnemyDealDamage;
+            _playerView.UpdateDetails(_player);
+            _enemyView.UpdateDetails(_enemy);
+
+            _gameController.OnPlayerTurnComplete += PlayerTurnComplete;
             _gameController.OnRoundComplete += RoundComplete;
             
             _gameController.RollDice();
         }
-        
-        private void EnemyDealDamage() => StartCoroutine(WaitAndDealDamage());
+
+        private void PlayerTurnComplete()
+        {
+            _enemyView.UpdateDetails(_enemy);
+            StartCoroutine(WaitAndDealDamage());
+        }
 
         private IEnumerator WaitAndDealDamage()
         {
             yield return new WaitForSeconds(_turnWait);
             _gameController.SubmitEnemyTurn(_enemy.AttackDamage);
+            
+            _playerView.UpdateDetails(_player);
+            
             _gameController.RollDice();
         }
 
-        private void RoundComplete() => Debug.Log("Round complete");
+        private void RoundComplete()
+        {
+            _enemyView.UpdateDetails(_enemy);
+            Debug.Log("Round complete");
+        }
 
         private void OnDestroy()
         {
-            _gameController.OnPlayerTurnComplete -= EnemyDealDamage;
+            _gameController.OnPlayerTurnComplete -= PlayerTurnComplete;
             _gameController.OnRoundComplete -= RoundComplete;
         }
     }
