@@ -15,7 +15,7 @@ namespace RollOfTheDice.UIComponents
 
         public Action OnDiePlaced;
         public int Value { get; private set; }
-        [HideInInspector] public DropZone _dropZone;
+        [HideInInspector] public DropZone DropZone;
 
         private Vector3 _startPosition;
 
@@ -66,8 +66,8 @@ namespace RollOfTheDice.UIComponents
                 return;
             }
 
-            _dropZone = foundDropZone;
-            _targetPosition = _dropZone.transform.position;
+            DropZone = foundDropZone;
+            _targetPosition = DropZone.transform.position;
             
             OnDiePlaced?.Invoke();
         }
@@ -76,10 +76,10 @@ namespace RollOfTheDice.UIComponents
         {
             if (!_dragEnabled)
                 return;
-            if (_dropZone == null)
+            if (DropZone == null)
                 return;
-            _dropZone.RemoveDie();
-            _dropZone = null;
+            DropZone.RemoveDie();
+            DropZone = null;
             
             OnDiePlaced?.Invoke();
         }

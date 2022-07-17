@@ -30,11 +30,10 @@ namespace RollOfTheDice.Controllers
             _enemy = enemy;
         }
 
-        public void SubmitPlayerTurn(int attackDamage)
+        public void SubmitPlayerTurn(PlayerTurnData turnData)
         {
-            _enemy.TakeDamage(attackDamage);
-            
-            Debug.Log($"Damage this turn: {attackDamage}\r\nEnemy health: {_enemy.Health}");
+            _player.AddShield(turnData.Defend);
+            _enemy.TakeDamage(turnData.Attack);
 
             if (_enemy.Dead)
             {
@@ -50,7 +49,7 @@ namespace RollOfTheDice.Controllers
             _player.TakeDamage(attackDamage);
             
             Debug.Log($"Damage this turn: {attackDamage}\r\nTotal enemy damage: {_player.Health}");
-            
+
             if (_player.Dead)
             {
                 OnRoundComplete?.Invoke();
