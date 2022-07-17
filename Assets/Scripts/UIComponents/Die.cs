@@ -1,13 +1,13 @@
 using System;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RollOfTheDice.UIComponents
 {
     public class Die : Draggable
     {
         [Header("References")]
-        [SerializeField] private SpriteRenderer _valueSpriteRenderer;
+        [SerializeField] private Image _valueImage;
 
         [Header("Dice sprites")]
         [SerializeField] private Sprite[] _valueSprites;
@@ -37,7 +37,12 @@ namespace RollOfTheDice.UIComponents
         public void SetValue(int value)
         {
             Value = value;
-            _valueSpriteRenderer.sprite = _valueSprites[Value - 1];
+            _valueImage.sprite = _valueSprites[Value - 1];
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            _targetPosition = position;
         }
 
         public void Enable(bool enable)
