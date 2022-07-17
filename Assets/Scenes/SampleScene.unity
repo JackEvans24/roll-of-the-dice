@@ -919,7 +919,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46.4
+  m_fontSize: 76.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1639,7 +1639,7 @@ MonoBehaviour:
   _roundEndView: {fileID: 735885165}
   _playerView: {fileID: 216893447}
   _enemyView: {fileID: 6792154180698202736}
-  _turnWait: 1
+  _turnWait: 0.5
 --- !u!4 &1406850783
 Transform:
   m_ObjectHideFlags: 0
@@ -2569,7 +2569,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.65
+  m_fontSize: 55.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
