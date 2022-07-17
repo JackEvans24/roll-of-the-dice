@@ -11,7 +11,6 @@ namespace RollOfTheDice.Models
         public Action OnDeath { get; }
         
         public int MaxHealth;
-        public int AttackDamage;
         public int DiceCount;
 
         public void Initialise()
