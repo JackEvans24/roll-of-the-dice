@@ -8,7 +8,6 @@ namespace RollOfTheDice.Models
         public bool Dead => Health <= 0;
         public int Health { get; private set; }
         public int Shield { get; private set; }
-        public Action OnDeath { get; }
         
         public int MaxHealth;
 
@@ -39,8 +38,6 @@ namespace RollOfTheDice.Models
 
             Shield = 0;
             Health = Mathf.Max(Health - remainingDamage, 0);
-            if (Dead)
-                OnDeath?.Invoke();
         }
     }
 }
