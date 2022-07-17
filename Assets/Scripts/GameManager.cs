@@ -58,6 +58,8 @@ namespace RollOfTheDice
             enemy.Initialise();
             _gameController.SetEnemy(enemy);
             
+            _enemyView.Initialise(_gameController.Enemy);
+            
             _playerView.UpdateDetails(_gameController.Player);
             _enemyView.UpdateDetails(_gameController.Enemy);
             
@@ -88,7 +90,7 @@ namespace RollOfTheDice
 
         private void SetEnemyQueue()
         {
-            _enemyQueue = _enemies.GetRandomisedQueue();
+            _enemyQueue = new Queue<Enemy>(_enemies);
         }
 
         private Enemy GetEnemy()

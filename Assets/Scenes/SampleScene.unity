@@ -791,6 +791,8 @@ MonoBehaviour:
   _player: {fileID: 11400000, guid: e3b859d5aa38e044a9aad5d7d571ad0b, type: 2}
   _enemies:
   - {fileID: 11400000, guid: 9f61e81f58bbbcd46b75b95eaa827382, type: 2}
+  - {fileID: 11400000, guid: e97f703a77970034ebf7d6585d203417, type: 2}
+  - {fileID: 11400000, guid: 4aee5ff93df6fd245b4875d41edb020d, type: 2}
   _roundEndView: {fileID: 735885165}
   _playerView: {fileID: 216893447}
   _enemyView: {fileID: 6792154180698202736}
@@ -1106,7 +1108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1240563968162550409, guid: cfd973fb7ec714e359233ad073ec7eba, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.4
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 1240563968162550409, guid: cfd973fb7ec714e359233ad073ec7eba, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1259,6 +1261,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2705394768025097643, guid: 5867601909709420a960959f2ef4a446, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8919917859636390485, guid: 5867601909709420a960959f2ef4a446, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8919917860236780644, guid: 5867601909709420a960959f2ef4a446, type: 3}
@@ -1452,19 +1458,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6822329831971939763, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.6
+      value: 0.95
       objectReference: {fileID: 0}
     - target: {fileID: 6822329831971939763, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.2
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 6822329831971939763, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6822329831971939763, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6822329831971939763, guid: 5150aca56f7714393891c1710c790a69, type: 3}
       propertyPath: m_SizeDelta.x

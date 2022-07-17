@@ -10,13 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a050135f20d6457e8b3015f5cdcb7f22, type: 3}
-  m_Name: Defender
+  m_Name: Lava Snake
   m_EditorClassIdentifier: 
-  MaxHealth: 12
+  MaxHealth: 40
+  Sprite: {fileID: 21300000, guid: 96642c8d581aa9f4ba0ea8f1f7bf1815, type: 3}
+  Size: 140
   Intents:
   - MoveType: 0
-    MovePower: 6
+    MovePower: 4
+    QueueInstances: 2
+  - MoveType: 1
+    MovePower: 3
     QueueInstances: 1
   - MoveType: 1
-    MovePower: 5
-    QueueInstances: 4
+    MovePower: 4
+    QueueInstances: 1

@@ -7,6 +7,8 @@ namespace RollOfTheDice.Models
     [CreateAssetMenu(menuName = "Game/Enemy")]
     public class Enemy : UnitWithHealth
     {
+        public Sprite Sprite;
+        public float Size;
         public EnemyIntent[] Intents;
 
         private Queue<EnemyIntent> _intentQueue = new Queue<EnemyIntent>();
