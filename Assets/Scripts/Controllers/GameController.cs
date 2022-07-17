@@ -8,14 +8,16 @@ namespace RollOfTheDice.Controllers
 {
     public class GameController
     {
+        public Action OnRoundStart;
         public Action OnPlayerTurnComplete;
         public Action OnEnemyTurnComplete;
         public Action<int[]> OnDiceRolled;
         public Action OnRoundComplete;
 
-        private DiceService _diceService;
+        public Player Player;
 
-        private Player _player;
+        private DiceService _diceService;
+        
         private Enemy _enemy;
 
         [Inject]
@@ -26,13 +28,15 @@ namespace RollOfTheDice.Controllers
 
         public void SetUpRound(Player player, Enemy enemy)
         {
-            _player = player;
+            Player = player;
             _enemy = enemy;
+            
+            OnRoundStart?.Invoke();
         }
 
         public void SubmitPlayerTurn(PlayerTurnData turnData)
         {
-            _player.AddShield(turnData.Defend);
+            Player.AddShield(turnData.Defend);
             _enemy.TakeDamage(turnData.Attack);
 
             if (_enemy.Dead)
@@ -49,7 +53,7 @@ namespace RollOfTheDice.Controllers
             switch (intent.MoveType)
             {
                 case MoveType.Attack:
-                    _player.TakeDamage(intent.MovePower);
+                    Player.TakeDamage(intent.MovePower);
                     break;
                 case MoveType.Defend:
                     _enemy.AddShield(intent.MovePower);
@@ -58,7 +62,7 @@ namespace RollOfTheDice.Controllers
                     throw new NotImplementedException();
             }
             
-            if (_player.Dead)
+            if (Player.Dead)
             {
                 OnRoundComplete?.Invoke();
                 return;
@@ -69,7 +73,7 @@ namespace RollOfTheDice.Controllers
 
         public void RollDice()
         {
-            var diceRolls = _diceService.RollDice(_player.DiceCount);
+            var diceRolls = _diceService.RollDice(Player.DiceCount);
             OnDiceRolled?.Invoke(diceRolls);
             
             Debug.Log("Dice rolled");
