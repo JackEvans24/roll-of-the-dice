@@ -8,6 +8,7 @@ namespace RollOfTheDice.Controllers
 {
     public class GameController
     {
+        public Action OnGameReset;
         public Action OnRoundStart;
         public Action OnPlayerTurnComplete;
         public Action OnEnemyTurnComplete;
@@ -15,10 +16,9 @@ namespace RollOfTheDice.Controllers
         public Action OnRoundComplete;
 
         public Player Player;
+        public Enemy Enemy;
 
         private DiceService _diceService;
-        
-        private Enemy _enemy;
 
         [Inject]
         public void Constructor(DiceService diceService)
@@ -26,20 +26,33 @@ namespace RollOfTheDice.Controllers
             _diceService = diceService;
         }
 
-        public void SetUpRound(Player player, Enemy enemy)
+        public void SetPlayer(Player player)
         {
             Player = player;
-            _enemy = enemy;
-            
+        }
+
+        public void SetEnemy(Enemy enemy)
+        {
+            Enemy = enemy;
+        }
+
+        public void Reset()
+        {
+            OnGameReset?.Invoke();
+        }
+
+        public void StartRound()
+        {
+            Player.ResetShield();
             OnRoundStart?.Invoke();
         }
 
         public void SubmitPlayerTurn(PlayerTurnData turnData)
         {
             Player.AddShield(turnData.Defend);
-            _enemy.TakeDamage(turnData.Attack);
+            Enemy.TakeDamage(turnData.Attack);
 
-            if (_enemy.Dead)
+            if (Enemy.Dead)
             {
                 OnRoundComplete?.Invoke();
                 return;
@@ -48,15 +61,17 @@ namespace RollOfTheDice.Controllers
             OnPlayerTurnComplete?.Invoke();
         }
 
-        public void SubmitEnemyTurn(EnemyIntent intent)
+        public void SubmitEnemyTurn()
         {
+            var intent = Enemy.GetNextIntent();
+            
             switch (intent.MoveType)
             {
                 case MoveType.Attack:
                     Player.TakeDamage(intent.MovePower);
                     break;
                 case MoveType.Defend:
-                    _enemy.AddShield(intent.MovePower);
+                    Enemy.AddShield(intent.MovePower);
                     break;
                 default:
                     throw new NotImplementedException();

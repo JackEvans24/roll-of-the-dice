@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
-using Random = UnityEngine.Random;
+using RollOfTheDice.Extensions;
+using UnityEngine;
 
 namespace RollOfTheDice.Models
 {
-    [Serializable]
+    [CreateAssetMenu(menuName = "Game/Enemy")]
     public class Enemy : UnitWithHealth
     {
         public EnemyIntent[] Intents;
@@ -29,21 +29,7 @@ namespace RollOfTheDice.Models
 
         private void PopulateIntentQueue()
         {
-            var randomisedList = new List<EnemyIntent>();
-            foreach (var intent in Intents)
-            {
-                for (var i = 0; i < intent.QueueInstances; i++)
-                    randomisedList.Add(intent);
-            }
-            
-            for (var i = 0; i < randomisedList.Count; i++)
-            {
-                var randomIndex = Random.Range(0, randomisedList.Count);
-                (randomisedList[i], randomisedList[randomIndex]) = (randomisedList[randomIndex], randomisedList[i]);
-            }
-
-            foreach (var intent in randomisedList)
-                _intentQueue.Enqueue(intent);
+            _intentQueue = Intents.GetRandomisedQueue(intent => intent.QueueInstances);
         }
     }
 }

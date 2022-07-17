@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollOfTheDice.Models
 {
-    public class UnitWithHealth : IPerishable
+    public class UnitWithHealth : ScriptableObject, IPerishable
     {
         public bool Dead => Health <= 0;
         public int Health { get; private set; }
@@ -15,12 +15,15 @@ namespace RollOfTheDice.Models
         public virtual void Initialise()
         {
             Health = MaxHealth;
+            Shield = 0;
         }
 
         public void AddShield(int shield)
         {
             Shield += shield;
         }
+
+        public void ResetShield() => Shield = 0;
         
         public void TakeDamage(int damage)
         {
