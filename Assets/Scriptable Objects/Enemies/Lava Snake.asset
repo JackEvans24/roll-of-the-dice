@@ -17,11 +17,14 @@ MonoBehaviour:
   Size: 140
   Intents:
   - MoveType: 0
-    MovePower: 4
-    QueueInstances: 2
-  - MoveType: 1
     MovePower: 3
     QueueInstances: 1
-  - MoveType: 1
+  - MoveType: 0
     MovePower: 4
+    QueueInstances: 2
+  - MoveType: 0
+    MovePower: 5
+    QueueInstances: 1
+  - MoveType: 1
+    MovePower: 8
     QueueInstances: 1
