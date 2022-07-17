@@ -11,7 +11,7 @@ namespace RollOfTheDice.Models
         
         public int MaxHealth;
 
-        public virtual void Initialise()
+        public virtual void Initialise(float multiplier = 1f)
         {
             Health = MaxHealth;
             Shield = 0;

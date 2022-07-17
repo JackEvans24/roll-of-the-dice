@@ -26,6 +26,7 @@ namespace RollOfTheDice
 
         private GameController _gameController;
         private Queue<Enemy> _enemyQueue = new Queue<Enemy>();
+        private float _multiplier = 1f;
         
         [Inject]
         public void Constructor(GameController gameController)
@@ -45,6 +46,8 @@ namespace RollOfTheDice
 
         private void StartGame()
         {
+            _multiplier = 1f;
+            
             _player.Initialise();
             _gameController.SetPlayer(_player);
             
@@ -56,7 +59,6 @@ namespace RollOfTheDice
         private void NewRound()
         {
             var enemy = GetEnemy();
-            enemy.Initialise();
             _gameController.SetEnemy(enemy);
             
             _enemyView.Initialise(_gameController.Enemy);
@@ -102,8 +104,12 @@ namespace RollOfTheDice
         private Enemy GetEnemy()
         {
             var enemy = _enemyQueue.Dequeue();
+            enemy.Initialise(_multiplier);
             if (_enemyQueue.Count <= 0)
+            {
                 SetEnemyQueue();
+                _multiplier += 0.5f;
+            }
             return enemy;
         }
 
