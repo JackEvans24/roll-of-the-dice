@@ -1,31 +1,49 @@
 using System;
-using UnityEngine;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace RollOfTheDice.Models
 {
     [Serializable]
-    public class Enemy : IPerishable
+    public class Enemy : UnitWithHealth
     {
-        public bool Dead => Health <= 0;
-        public int Health { get; private set; }
-        public Action OnDeath { get; }
-        
-        public int MaxHealth;
-        public int AttackDamage;
+        public EnemyIntent[] Intents;
 
-        public void Initialise()
+        private Queue<EnemyIntent> _intentQueue = new Queue<EnemyIntent>();
+
+        public override void Initialise()
         {
-            Health = MaxHealth;
+            base.Initialise();
+            PopulateIntentQueue();
         }
-        
-        public void TakeDamage(int damage)
+
+        public EnemyIntent PeekNextIntent() => _intentQueue.Peek();
+
+        public EnemyIntent GetNextIntent()
         {
-            if (Dead)
-                return;
+            var intent = _intentQueue.Dequeue();
+            if (_intentQueue.Count <= 0)
+                PopulateIntentQueue();
+            return intent;
+        }
+
+        private void PopulateIntentQueue()
+        {
+            var randomisedList = new List<EnemyIntent>();
+            foreach (var intent in Intents)
+            {
+                for (var i = 0; i < intent.QueueInstances; i++)
+                    randomisedList.Add(intent);
+            }
             
-            Health = Mathf.Max(Health - damage, 0);
-            if (Dead)
-                OnDeath?.Invoke();
+            for (var i = 0; i < randomisedList.Count; i++)
+            {
+                var randomIndex = Random.Range(0, randomisedList.Count);
+                (randomisedList[i], randomisedList[randomIndex]) = (randomisedList[randomIndex], randomisedList[i]);
+            }
+
+            foreach (var intent in randomisedList)
+                _intentQueue.Enqueue(intent);
         }
     }
 }
