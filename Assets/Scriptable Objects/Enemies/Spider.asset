@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a050135f20d6457e8b3015f5cdcb7f22, type: 3}
-  m_Name: Basic enemy
+  m_Name: Spider
   m_EditorClassIdentifier: 
-  MaxHealth: 12
+  MaxHealth: 14
+  Sprite: {fileID: 21300000, guid: 947cb3a13c4142a448a9b7567b06cd7e, type: 3}
+  Size: 80
   Intents:
   - MoveType: 0
-    MovePower: 10
-    QueueInstances: 3
+    MovePower: 4
+    QueueInstances: 4
   - MoveType: 1
-    MovePower: 3
-    QueueInstances: 0
+    MovePower: 8
+    QueueInstances: 1

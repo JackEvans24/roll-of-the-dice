@@ -8,7 +8,10 @@ namespace RollOfTheDice.Views
 {
     public class EnemyView : MonoBehaviour
     {
-        [Header("References")]
+        [Header("Sprite")]
+        [SerializeField] private Image _enemyImage;
+
+        [Header("Value References")]
         [SerializeField] private TMP_Text _healthLabel;
         [SerializeField] private GameObject _shieldIndicator;
         [SerializeField] private TMP_Text _shieldLabel;
@@ -19,6 +22,13 @@ namespace RollOfTheDice.Views
         [SerializeField] private TMP_Text _intentLabel;
         [SerializeField] private Sprite _attackSprite;
         [SerializeField] private Sprite _defendSprite;
+
+        public void Initialise(Enemy enemy)
+        {
+            _enemyImage.sprite = enemy.Sprite;
+            _enemyImage.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, enemy.Size);
+            _enemyImage.rectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, enemy.Size);
+        }
 
         public void UpdateDetails(Enemy enemy)
         {
