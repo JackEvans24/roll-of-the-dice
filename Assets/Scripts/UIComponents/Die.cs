@@ -30,7 +30,7 @@ namespace RollOfTheDice.UIComponents
             _startPosition = transform.position;
             _targetPosition = _startPosition;
             
-            OnLift += RemoveDropZone;
+            OnLift += Lift;
             OnDrop += FindDropZone;
         }
 
@@ -82,10 +82,15 @@ namespace RollOfTheDice.UIComponents
             OnDiePlaced?.Invoke();
         }
 
-        private void RemoveDropZone()
+        private void Lift()
         {
             if (!_dragEnabled)
                 return;
+            RemoveDropZone();
+        }
+
+        private void RemoveDropZone()
+        {
             if (DropZone == null)
                 return;
             DropZone.RemoveDie();
@@ -96,7 +101,7 @@ namespace RollOfTheDice.UIComponents
 
         private void OnDestroy()
         {
-            OnLift -= RemoveDropZone;
+            OnLift -= Lift;
             OnDrop -= FindDropZone;
         }
     }
