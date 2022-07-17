@@ -18,6 +18,11 @@ namespace RollOfTheDice.Views
         [SerializeField] private string _winRoundButtonText = "Next Round";
         [SerializeField] private string _loseRoundButtonText = "Try Again";
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _winClip;
+        [SerializeField] private AudioClip _loseClip;
+        
         private GameController _gameController;
         
         [Inject]
@@ -33,6 +38,8 @@ namespace RollOfTheDice.Views
             var roundWon = _gameController.Player.Health > 0;
             _roundEndLabel.text = roundWon ? _winRoundTitle : _loseRoundTitle;
             _roundEndButtonText.text = roundWon ? _winRoundButtonText : _loseRoundButtonText;
+            
+            _audioSource.PlayOneShot(roundWon ? _winClip : _loseClip);
         }
 
         public void Continue()
