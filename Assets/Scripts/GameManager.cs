@@ -41,8 +41,6 @@ namespace RollOfTheDice
             _gameController.OnRoundComplete += RoundComplete;
 
             _gameView.OnTurnConfirmed += CompleteTurn;
-            
-            StartGame();
         }
 
         private void StartGame()
