@@ -51,7 +51,5 @@ namespace RollOfTheDice
             _gameController.OnPlayerTurnComplete -= EnemyDealDamage;
             _gameController.OnRoundComplete -= RoundComplete;
         }
-        
-        
     }
 }
