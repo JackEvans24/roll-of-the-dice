@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace RollOfTheDice.UIComponents
 {
@@ -7,7 +9,7 @@ namespace RollOfTheDice.UIComponents
         public DropZoneType DropZoneType;
 
         [Header("Drop zone icon")]
-        [SerializeField] private SpriteRenderer _iconSpriteRenderer;
+        [SerializeField] private Image _iconImage;
         [SerializeField] private Sprite _attackSprite;
         [SerializeField] private Sprite _defendSprite;
         
@@ -15,11 +17,11 @@ namespace RollOfTheDice.UIComponents
 
         private void Start()
         {
-            _iconSpriteRenderer.sprite = DropZoneType switch
+            _iconImage.sprite = DropZoneType switch
             {
                 DropZoneType.Attack => _attackSprite,
                 DropZoneType.Defence => _defendSprite,
-                _ => _iconSpriteRenderer.sprite
+                _ => _iconImage.sprite
             };
         }
 
