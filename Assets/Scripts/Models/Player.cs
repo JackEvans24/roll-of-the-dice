@@ -1,8 +1,8 @@
-using System;
+using UnityEngine;
 
 namespace RollOfTheDice.Models
 { 
-    [Serializable]
+    [CreateAssetMenu(menuName = "Game/Player")]
     public class Player : UnitWithHealth
     {
         public int DiceCount;
